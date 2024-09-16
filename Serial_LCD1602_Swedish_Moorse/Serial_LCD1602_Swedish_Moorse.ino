@@ -20,7 +20,7 @@ String buffer;
 */
 LiquidCrystal_I2C lcd(0x27,16,2); 
 
-String inputString = "";      //a String to hold incoming data
+static String inputString = "";      //a String to hold incoming data
 bool stringComplete = false;  // whether the string is complete
 
 String message = "This is a long message that needs to be wrapped across multiple lines.";
