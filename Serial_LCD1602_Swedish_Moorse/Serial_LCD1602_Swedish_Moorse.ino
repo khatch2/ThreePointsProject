@@ -6,6 +6,10 @@
 **********************************************************************/
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h>
+#include "BluetoothSerial.h"
+
+BluetoothSerial SerialBT;
+String buffer;
 
 #define SDA 13                    //Define SDA pins
 #define SCL 14                    //Define SCL pins
@@ -25,6 +29,10 @@ String emptySpaces = "                         ";
 void setup() {
 
   Serial.begin(115200);
+  SerialBT.begin("ESP32test"); //Bluetooth device name
+  Serial.println("\nThe device started, now you can pair it with bluetooth!");
+
+  //Serial.begin(115200);
 
   Serial.println(String("\nESP32 initialization completed!\n")
                 + String("Please input some characters,\n")
@@ -49,6 +57,7 @@ void setup() {
 
 void loop() {
 
+
   if (Serial.available()) {         // judge whether data has been received
     //inputString = emptySpaces;
     char inChar = Serial.read();         // read one character
@@ -57,10 +66,36 @@ void loop() {
     if (inChar == '\n') {
       stringComplete = true;
     }
+    SerialBT.write(Serial.read());
   }
+
+  if (SerialBT.available()) {
+    Serial.write(SerialBT.read());
+    //String recived[4] = "    ";
+    //String recived[4] = {"", "", "", ""};
+
+    //recived = SerialBT.read();
+    String recived = SerialBT.readString();
+    for(int i=0; i<recived.length(); i++) {
+      //char inRecived = recived[i];
+      char inRecived = recived.charAt(i);
+      inputString += char2moorse(inRecived);
+      if (inRecived == '\n') {
+        stringComplete = true;
+      }
+    }
+
+  }
+
 
   if (stringComplete) {
     Serial.printf("inputString: %s \n", inputString);
+    //SerialBT.write(inputString);
+    //SerialBT.write(inputString.c_str());
+
+    // Assuming inputString is defined and populated elsewhere in your code
+    SerialBT.write((const uint8_t*)inputString.c_str(), inputString.length());
+
     inputString = "";
     stringComplete = false;
   }
