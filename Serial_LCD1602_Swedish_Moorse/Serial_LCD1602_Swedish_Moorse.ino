@@ -96,7 +96,7 @@ void loop() {
     // Assuming inputString is defined and populated elsewhere in your code
     SerialBT.write((const uint8_t*)inputString.c_str(), inputString.length());
 
-    inputString = "";
+    //inputString = "";
     stringComplete = false;
   }
 
