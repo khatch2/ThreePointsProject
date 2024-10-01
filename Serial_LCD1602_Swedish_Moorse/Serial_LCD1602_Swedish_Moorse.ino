@@ -21,7 +21,7 @@ String buffer;
 LiquidCrystal_I2C lcd(0x27,16,2); 
 
 static String inputString = "";      //a String to hold incoming data
-bool stringComplete = false;  // whether the string is complete
+bool stringComplete = false;        // whether the string is complete
 
 String message = "This is a long message that needs to be wrapped across multiple lines.";
 String emptySpaces = "                         ";
@@ -32,13 +32,10 @@ void setup() {
   SerialBT.begin("ESP32test"); //Bluetooth device name
   Serial.println("\nThe device started, now you can pair it with bluetooth!");
 
-  //Serial.begin(115200);
-
   Serial.println(String("\nESP32 initialization completed!\n")
                 + String("Please input some characters,\n")
                 + String("select \"Newline\" below and click send button. \n"));
 
-  
   Wire.begin(SDA, SCL);           // attach the IIC pin
 
   if (!i2CAddrTest(0x27)) {
@@ -48,15 +45,13 @@ void setup() {
   lcd.init();                     // LCD driver initialization
   lcd.backlight();                // Open the backlight
   lcd.setCursor(0,0);             // Move the cursor to row 0, column 0
-  //lcd.print(" input : ");     // The print content is displayed on the LCD
+  //lcd.print(" input : ");       // The print content is displayed on the LCD
 
-  
   printWrappedText(inputString);
   
 }
 
 void loop() {
-
 
   if (Serial.available()) {         // judge whether data has been received
     //inputString = emptySpaces;
@@ -71,32 +66,24 @@ void loop() {
 
   if (SerialBT.available()) {
     Serial.write(SerialBT.read());
-    //String recived[4] = "    ";
-    //String recived[4] = {"", "", "", ""};
-
-    //recived = SerialBT.read();
+    
     String recived = SerialBT.readString();
+    
     for(int i=0; i<recived.length(); i++) {
-      //char inRecived = recived[i];
       char inRecived = recived.charAt(i);
       inputString += char2moorse(inRecived);
       if (inRecived == '\n') {
         stringComplete = true;
       }
     }
-
   }
-
 
   if (stringComplete) {
     Serial.printf("inputString: %s \n", inputString);
-    //SerialBT.write(inputString);
-    //SerialBT.write(inputString.c_str());
-
+    
     // Assuming inputString is defined and populated elsewhere in your code
     SerialBT.write((const uint8_t*)inputString.c_str(), inputString.length());
 
-    //inputString = "";
     stringComplete = false;
   }
 
@@ -105,7 +92,6 @@ void loop() {
   lcd.setCursor(0,0);             // Move the cursor to row 0, column 0
   lcd.print(inputString);          // The count is displayed every second
   delay(1000);
-  
 }
 
 bool i2CAddrTest(uint8_t addr) {
@@ -148,7 +134,6 @@ String char2moorse(char myChar) {
   if (myChar == 'å' || myChar == 'Å') { return ".--.- "; }
   if (myChar == 'ä' || myChar == 'Ä') { return ".-.- "; }
   if (myChar == 'ö' || myChar == 'Ö') { return "--. "; }
- 
 }
 
 void printWrappedText(String text) {
@@ -164,4 +149,3 @@ void printWrappedText(String text) {
         }
     }
 }
-
