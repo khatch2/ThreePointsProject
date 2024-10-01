@@ -20,7 +20,7 @@ String buffer;
 */
 LiquidCrystal_I2C lcd(0x27,16,2); 
 
-static String inputString = "";      //a String to hold incoming data
+static String inputString = "a";      //a String to hold incoming data
 bool stringComplete = false;        // whether the string is complete
 
 String message = "This is a long message that needs to be wrapped across multiple lines.";
@@ -79,7 +79,7 @@ void loop() {
   }
 
   if (stringComplete) {
-    Serial.printf("inputString: %s \n", inputString);
+    Serial.printf("\ninputString: %s \n", inputString);
     
     // Assuming inputString is defined and populated elsewhere in your code
     SerialBT.write((const uint8_t*)inputString.c_str(), inputString.length());
@@ -90,8 +90,8 @@ void loop() {
   delay(1000);
   
   lcd.setCursor(0,0);             // Move the cursor to row 0, column 0
-  
-  if (inputString.length > 0) {
+
+  if (inputString.length() > 0) {
     lcd.print(inputString);          // The count is displayed every second
   }
   
@@ -107,37 +107,38 @@ bool i2CAddrTest(uint8_t addr) {
 }
 
 String char2moorse(char myChar) {
+  inputString = "";
 
-  if (myChar == 'a' || myChar == 'A') { return ".- "; }
-  if (myChar == 'b' || myChar == 'B') { return "-... "; }
-  if (myChar == 'c' || myChar == 'C') { return "-.-. "; }
-  if (myChar == 'd' || myChar == 'D') { return "-... "; }
-  if (myChar == 'e' || myChar == 'E') { return ". "; }
-  if (myChar == 'f' || myChar == 'F') { return "...-. "; }
-  if (myChar == 'g' || myChar == 'G') { return "--. "; }
-  if (myChar == 'h' || myChar == 'H') { return "... "; }
-  if (myChar == 'i' || myChar == 'I') { return "... "; }
-  if (myChar == 'j' || myChar == 'J') { return ".-- "; }
-  if (myChar == 'k' || myChar == 'K') { return "-.- "; }
-  if (myChar == 'l' || myChar == 'L') { return ".-... "; }
-  if (myChar == 'm' || myChar == 'M') { return "-- "; }
-  if (myChar == 'n' || myChar == 'N') { return "-. "; }
-  if (myChar == 'o' || myChar == 'O') { return "--- "; }
-  if (myChar == 'p' || myChar == 'P') { return ".--. "; }
-  if (myChar == 'q' || myChar == 'Q') { return "--.- "; }
-  if (myChar == 'r' || myChar == 'R') { return ".-. "; }
-  if (myChar == 's' || myChar == 'S') { return "... "; }
-  if (myChar == 't' || myChar == 'T') { return "- "; }
-  if (myChar == 'u' || myChar == 'U') { return "...- "; }
-  if (myChar == 'v' || myChar == 'V') { return "...- "; }
-  if (myChar == 'w' || myChar == 'W') { return ".-- "; }
-  if (myChar == 'x' || myChar == 'X') { return "-.--- "; }
-  if (myChar == 'y' || myChar == 'Y') { return "-.-- "; }
-  if (myChar == 'z' || myChar == 'Z') { return "--... "; }
+  if (myChar == 'a' || myChar == 'A') { return " .- "; }
+  if (myChar == 'b' || myChar == 'B') { return " -... "; }
+  if (myChar == 'c' || myChar == 'C') { return " -.-. "; }
+  if (myChar == 'd' || myChar == 'D') { return " -... "; }
+  if (myChar == 'e' || myChar == 'E') { return " . "; }
+  if (myChar == 'f' || myChar == 'F') { return " ...-. "; }
+  if (myChar == 'g' || myChar == 'G') { return " --. "; }
+  if (myChar == 'h' || myChar == 'H') { return " ... "; }
+  if (myChar == 'i' || myChar == 'I') { return " ... "; }
+  if (myChar == 'j' || myChar == 'J') { return " .-- "; }
+  if (myChar == 'k' || myChar == 'K') { return " -.- "; }
+  if (myChar == 'l' || myChar == 'L') { return " .-... "; }
+  if (myChar == 'm' || myChar == 'M') { return " -- "; }
+  if (myChar == 'n' || myChar == 'N') { return " -. "; }
+  if (myChar == 'o' || myChar == 'O') { return " --- "; }
+  if (myChar == 'p' || myChar == 'P') { return " .--. "; }
+  if (myChar == 'q' || myChar == 'Q') { return " --.- "; }
+  if (myChar == 'r' || myChar == 'R') { return " .-. "; }
+  if (myChar == 's' || myChar == 'S') { return " ... "; }
+  if (myChar == 't' || myChar == 'T') { return " - "; }
+  if (myChar == 'u' || myChar == 'U') { return " ...- "; }
+  if (myChar == 'v' || myChar == 'V') { return " ...- "; }
+  if (myChar == 'w' || myChar == 'W') { return " .-- "; }
+  if (myChar == 'x' || myChar == 'X') { return " -.--- "; }
+  if (myChar == 'y' || myChar == 'Y') { return " -.-- "; }
+  if (myChar == 'z' || myChar == 'Z') { return " --... "; }
 
-  if (myChar == 'å' || myChar == 'Å') { return ".--.- "; }
-  if (myChar == 'ä' || myChar == 'Ä') { return ".-.- "; }
-  if (myChar == 'ö' || myChar == 'Ö') { return "--. "; }
+  if (myChar == 'å' || myChar == 'Å') { return " .--.- "; }
+  if (myChar == 'ä' || myChar == 'Ä') { return " .-.- "; }
+  if (myChar == 'ö' || myChar == 'Ö') { return " --. "; }
 }
 
 void printWrappedText(String text) {
