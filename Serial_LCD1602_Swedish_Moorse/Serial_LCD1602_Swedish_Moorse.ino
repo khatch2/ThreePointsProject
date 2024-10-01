@@ -90,7 +90,11 @@ void loop() {
   delay(1000);
   
   lcd.setCursor(0,0);             // Move the cursor to row 0, column 0
-  lcd.print(inputString);          // The count is displayed every second
+  
+  if (inputString.length > 0) {
+    lcd.print(inputString);          // The count is displayed every second
+  }
+  
   delay(1000);
 }
 
